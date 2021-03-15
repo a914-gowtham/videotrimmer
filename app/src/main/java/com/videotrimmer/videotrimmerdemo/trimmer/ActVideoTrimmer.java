@@ -100,7 +100,7 @@ public class ActVideoTrimmer extends AppCompatActivity {
 
     private CompressOption compressOption;
 
-    private String outputPath, destinationPath;
+    private String outputPath;
 
     private int trimType;
 
@@ -202,7 +202,6 @@ public class ActVideoTrimmer extends AppCompatActivity {
             TrimVideoOptions trimVideoOptions = getIntent().getParcelableExtra(TrimVideo.TRIM_VIDEO_OPTION);
             assert trimVideoOptions != null;
             trimType = TrimmerUtils.getTrimType(trimVideoOptions.trimType);
-            destinationPath = trimVideoOptions.destination;
             fileName = trimVideoOptions.fileName;
             hidePlayerSeek = trimVideoOptions.hideSeekBar;
             isAccurateCut = trimVideoOptions.accurateCut;
@@ -216,13 +215,6 @@ public class ActVideoTrimmer extends AppCompatActivity {
                 maxToGap = trimVideoOptions.minToMax[1];
                 minFromGap = minFromGap != 0 ? minFromGap : totalDuration;
                 maxToGap = maxToGap != 0 ? maxToGap : totalDuration;
-            }
-            if (destinationPath != null) {
-                File outputDir = new File(destinationPath);
-                outputDir.mkdirs();
-                destinationPath = String.valueOf(outputDir);
-                if (!outputDir.isDirectory())
-                    throw new IllegalArgumentException("Destination file path error" + " " + destinationPath);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -498,8 +490,6 @@ public class ActVideoTrimmer extends AppCompatActivity {
 
     private String getFileName() {
         String path = getExternalFilesDir("Download").getPath();
-        if (destinationPath != null)
-            path = destinationPath;
         Calendar calender = Calendar.getInstance();
         String fileDateTime = calender.get(Calendar.YEAR) + "_" +
                 calender.get(Calendar.MONTH) + "_" +
