@@ -499,7 +499,7 @@ public class ActVideoTrimmer extends AppCompatActivity {
     }
 
     private String getFileName() {
-        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "";
+        String path = getExternalFilesDir("Download").getPath();
         if (destinationPath != null)
             path = destinationPath;
         Calendar calender = Calendar.getInstance();
@@ -514,11 +514,6 @@ public class ActVideoTrimmer extends AppCompatActivity {
             fName = fileName;
         File newFile = new File(path + File.separator +
                 (fName) + fileDateTime + "." + TrimmerUtils.getFileExtension(this, uri));
-      /*  while (newFile.exists()) {
-            fileNo++;
-            newFile = new File(path + File.separator +
-                    (fName + fileNo) + "." + TrimmerUtils.getFileExtension(this, uri));
-        }*/
         return String.valueOf(newFile);
     }
 
@@ -624,10 +619,10 @@ public class ActVideoTrimmer extends AppCompatActivity {
 
     private boolean checkStoragePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            return checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            return checkPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.ACCESS_MEDIA_LOCATION);
         } else
-            return checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            return checkPermission(
                     Manifest.permission.READ_EXTERNAL_STORAGE);
 
     }
